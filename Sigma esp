@@ -1,0 +1,45 @@
+local player = game.Players.LocalPlayer
+local char = player.Character
+local head = char.Head
+
+local blueBlock = Instance.new('Part', char)
+blueBlock.Color = BrickColor.Blue
+blueBlock.Transparency = 0.7
+blueBlock.Size = Vector3.new(1, 1, 1)
+blueBlock.Parent = char
+blueBlock.Anchored = true
+blueBlock.CanCollide = false
+blueBlock.CFrame = head.CFrame * CFrame.new(0, 1.5, 0)
+
+local usernameLabel = Instance.new('TextLabel', char)
+usernameLabel.Text = player.Name
+usernameLabel.TextColor3 = Color3.new(0, 1, 1)
+usernameLabel.BackgroundTransparency = 1
+usernameLabel.Size = UDim2.new(0, 100, 0, 20)
+usernameLabel.Position = UDim2.new(0.5, -50, 0.85, -50)
+usernameLabel.Anchored = true
+usernameLabel.ZIndex = 2
+
+local nearbyPlayers = game.Players:GetPlayers()
+
+for _, otherPlayer in ipairs(nearbyPlayers) do
+    if otherPlayer ~= player then
+        local otherPlayerHead = otherPlayer.Character.Head
+        local distance = (otherPlayerHead.Position - head.Position).Magnitude
+
+        if distance <= 30 then
+            local playerESP = Instance.new('Part', char)
+            playerESP.Color = Color3.new(0, 1, 0)
+            playerESP.Transparency = 0.4
+            playerESP.Size = Vector3.new(0.2, 0.2, 0.2)
+            playerESP.Anchored = true
+            playerESP.CFrame = CFrame.new(otherPlayerHead.Position)
+            playerESP.CanCollide = false
+
+            playerESP.Parent = char
+        end
+    end
+end
+
+blueBlock.Parent = char
+usernameLabel.Parent = char
